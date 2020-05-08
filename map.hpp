@@ -10,7 +10,7 @@ class Sector : public Ocean
 {
 protected:
     int r,g,b;
-    bool ship = false;
+    bool ship_present = false;
 public:
     Sector(int x, int y);
 

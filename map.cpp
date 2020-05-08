@@ -20,7 +20,7 @@ void Sector::szinez(event ev)
 {
     int xk = x + 15;
     int yk = y + 15;
-    if(ev.button == btn_left && sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) < 15 && ship)
+    if(ev.button == btn_left && sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) < 15 && ship_present)
     {
         r = 255;
         g = 0;
@@ -28,7 +28,7 @@ void Sector::szinez(event ev)
         /*std::cout << 30*sqrt(2)/2 << std::endl;
         std::cout << sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) << std::endl;*/
     }
-    if(ev.button == btn_right && sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) < 15)
+    if(ev.button == btn_left && sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) < 15 && !ship_present)
     {
         r = 0;
         g = 255;

@@ -6,6 +6,7 @@
 
 #include<vector>
 #include "map.hpp"
+#include "warship.hpp"
 
 using namespace std;
 
