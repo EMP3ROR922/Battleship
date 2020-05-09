@@ -4,17 +4,22 @@
 
 class Warship
 {
-public:
-    int kx, ky, ox, oy;
+protected:
+    int kx, ky, ox, oy, kattx,katty;
     int parts;
     bool destroyed = false;
-protected:
-    Warship(int kx, int ky, int parts);
+    bool grabbed = false;
+public:
+    Warship();
 
 
     virtual void damage();
-
-
+    virtual bool getgrabbed();
+    virtual void grab(int ex, int ey);
+    virtual void mozog(int ex, int ey);
+    virtual void rajzol();
+    virtual void elhelyez(int ex, int ey);
+    virtual void setxy(int kx, int ky);
 
 };
 
@@ -24,12 +29,12 @@ class Destroyer : public Warship
 protected:
 
 public:
-    Destroyer(int kx, int ky, int parts);
 
+    void setxy(int kx, int ky);
     void rajzol();
     void damage();
-    void mozog();
-    void elhelyez();
+    void elhelyez(int ex, int ey);
+
 };
 
 class Cruiser : public Warship
@@ -37,12 +42,10 @@ class Cruiser : public Warship
 protected:
 public:
 
-    Cruiser(int kx, int ky, int parts);
-
+    void setxy(int kx, int ky);
     void rajzol();
     void damage();
-    void mozog();
-    void elhelyez();
+    void elhelyez(int ex, int ey);
 };
 
 class Battleship : public Warship
@@ -50,12 +53,11 @@ class Battleship : public Warship
 protected:
 public:
 
-    Battleship(int kx, int ky, int parts);
 
+    void setxy(int kx, int ky);
     void rajzol();
     void damage();
-    void mozog();
-    void elhelyez();
+    void elhelyez(int ex, int ey);
 };
 
 class AircraftCarrier : public Warship
@@ -63,12 +65,11 @@ class AircraftCarrier : public Warship
 protected:
 public:
 
-    AircraftCarrier(int kx, int ky, int parts);
 
+    void setxy(int kx, int ky);
     void rajzol();
     void damage();
-    void mozog();
-    void elhelyez();
+    void elhelyez(int ex, int ey);
 };
 
 

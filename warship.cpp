@@ -4,11 +4,9 @@
 using namespace genv;
 
 
-Warship::Warship(int kx, int ky,int parts)
+Warship::Warship()
 {
-    this->kx = kx;
-    this->ky = ky;
-    this->parts = parts;
+
 }
 
 
@@ -16,8 +14,43 @@ void Warship::damage()
 {
 
 }
+bool Warship::getgrabbed()
+{
+    return grabbed;
+}
+void Warship::grab(int ex, int ey)
+{
+    if(kx - 15 < ex && ex < kx+15 && ky-15 < ey && ey < ky+15 && grabbed == false )
+    {
+        grabbed = true;
+        kattx = ex;
+        katty = ey;
+        ox = kx;
+        oy = ky;
+    }
 
-Destroyer::Destroyer(int kx, int ky, int parts): Warship(kx, ky, 1){}
+}
+void Warship::mozog(int ex, int ey)
+{
+    kx = ox+ex-kattx;
+    ky = oy+ey-katty;
+}
+void Warship::rajzol()
+{
+
+}
+void Warship::elhelyez(int ex, int ey)
+{
+
+}
+void Warship::setxy(int kx,int ky)
+{
+
+}
+
+
+
+
 
 void Destroyer::rajzol()
 {
@@ -29,17 +62,21 @@ void Destroyer::damage()
 {
 
 }
-void Destroyer::mozog()
+
+
+void Destroyer::elhelyez(int ex, int ey)
 {
-
+    grabbed = false;
 }
-void Destroyer::elhelyez()
+void Destroyer::setxy(int kx, int ky)
 {
-
+    parts = 1;
+    this->kx = kx;
+    this->ky = ky;
 }
 
 
-Cruiser::Cruiser(int kx, int ky, int parts) : Warship(kx, ky, 3){}
+
 
 void Cruiser::rajzol()
 {
@@ -53,17 +90,19 @@ void Cruiser::damage()
 {
 
 }
-void Cruiser::mozog()
+void Cruiser::elhelyez(int ex, int ey)
 {
-
+    grabbed = false;
 }
-void Cruiser::elhelyez()
+void Cruiser::setxy(int kx, int ky)
 {
-
+    this->kx = kx;
+    this->ky = ky;
+    parts = 3;
 }
 
 
-Battleship::Battleship(int kx, int ky, int parts) : Warship(kx, ky, 5){}
+
 
 void Battleship::rajzol()
 {
@@ -79,16 +118,19 @@ void Battleship::damage()
 {
 
 }
-void Battleship::mozog()
+
+void Battleship::elhelyez(int ex, int ey)
 {
-
+    grabbed = false;
 }
-void Battleship::elhelyez()
+void Battleship::setxy(int kx, int ky)
 {
-
+    this->kx = kx;
+    this->ky = ky;
+    parts = 5;
 }
 
-AircraftCarrier::AircraftCarrier(int kx, int ky, int parts) : Warship(kx, ky, 7){}
+
 
 void AircraftCarrier::rajzol()
 {
@@ -106,11 +148,14 @@ void AircraftCarrier::damage()
 {
 
 }
-void AircraftCarrier::mozog()
-{
 
+void AircraftCarrier::elhelyez(int ex, int ey)
+{
+    grabbed = false;
 }
-void AircraftCarrier::elhelyez()
+void AircraftCarrier::setxy(int kx, int ky)
 {
-
+    this->kx = kx;
+    this->ky = ky;
+    parts = 7;
 }
