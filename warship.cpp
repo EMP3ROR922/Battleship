@@ -1,5 +1,7 @@
 #include "graphics.hpp"
 #include "warship.hpp"
+#include "math.h"
+#include<iostream>
 
 using namespace genv;
 
@@ -32,20 +34,32 @@ void Warship::grab(int ex, int ey)
 }
 void Warship::mozog(int ex, int ey)
 {
-    kx = ox+ex-kattx;
-    ky = oy+ey-katty;
+
+
 }
 void Warship::rajzol()
 {
 
 }
-void Warship::elhelyez(int ex, int ey)
+bool Warship::elhelyez(int ex, int ey)
 {
-
+    return true;
 }
 void Warship::setxy(int kx,int ky)
 {
 
+}
+int Warship::getkx()
+{
+    return kx;
+}
+int Warship::getky()
+{
+    return ky;
+}
+int Warship::returntype()
+{
+    return parts;
 }
 
 
@@ -62,11 +76,30 @@ void Destroyer::damage()
 {
 
 }
-
-
-void Destroyer::elhelyez(int ex, int ey)
+void Destroyer::mozog(int ex, int ey)
 {
-    grabbed = false;
+    if(ox+ex-kattx - 45 > 0 && ox+ex-kattx + 45 < 399 && oy+ey-katty -45 > 0 && oy+ey-katty + 45 < 399)
+    {
+        kx = ox+ex-kattx;
+        ky = oy+ey-katty;
+    }
+
+}
+
+
+bool Destroyer::elhelyez(int ex, int ey)
+{
+
+    if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
+    {
+        grabbed = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
 }
 void Destroyer::setxy(int kx, int ky)
 {
@@ -90,9 +123,26 @@ void Cruiser::damage()
 {
 
 }
-void Cruiser::elhelyez(int ex, int ey)
+void Cruiser::mozog(int ex, int ey)
 {
-    grabbed = false;
+    if(ox+ex-kattx - 75 > 0 && ox+ex-kattx + 75 < 399 && oy+ey-katty -45 > 0 && oy+ey-katty + 45 < 399)
+    {
+        kx = ox+ex-kattx;
+        ky = oy+ey-katty;
+    }
+
+}
+bool Cruiser::elhelyez(int ex, int ey)
+{
+    if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
+    {
+        grabbed = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 void Cruiser::setxy(int kx, int ky)
 {
@@ -118,10 +168,27 @@ void Battleship::damage()
 {
 
 }
-
-void Battleship::elhelyez(int ex, int ey)
+void Battleship::mozog(int ex, int ey)
 {
-    grabbed = false;
+    if(ox+ex-kattx - 105 > 0 && ox+ex-kattx + 105 < 399 && oy+ey-katty -45 > 0 && oy+ey-katty + 45 < 399)
+    {
+        kx = ox+ex-kattx;
+        ky = oy+ey-katty;
+    }
+
+}
+
+bool Battleship::elhelyez(int ex, int ey)
+{
+    if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
+    {
+        grabbed = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 void Battleship::setxy(int kx, int ky)
 {
@@ -148,10 +215,27 @@ void AircraftCarrier::damage()
 {
 
 }
-
-void AircraftCarrier::elhelyez(int ex, int ey)
+void AircraftCarrier::mozog(int ex, int ey)
 {
-    grabbed = false;
+    if(ox+ex-kattx - 135 > 0 && ox+ex-kattx + 135 < 399 && oy+ey-katty -45 > 0 && oy+ey-katty + 45 < 399)
+    {
+        kx = ox+ex-kattx;
+        ky = oy+ey-katty;
+    }
+
+}
+
+bool AircraftCarrier::elhelyez(int ex, int ey)
+{
+    if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
+    {
+        grabbed = false;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 void AircraftCarrier::setxy(int kx, int ky)
 {

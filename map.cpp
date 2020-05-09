@@ -1,5 +1,6 @@
 #include "graphics.hpp"
 #include "map.hpp"
+#include "gamemaster.hpp"
 #include<math.h>
 #include<iostream>
 
@@ -25,8 +26,8 @@ void Sector::szinez(event ev)
         r = 255;
         g = 0;
         b = 0;
-        /*std::cout << 30*sqrt(2)/2 << std::endl;
-        std::cout << sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) << std::endl;*/
+        std::cout << 30*sqrt(2)/2 << std::endl;
+        std::cout << sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) << std::endl;
     }
     if(ev.button == btn_left && sqrt(pow(ev.pos_x - xk,2)+pow(ev.pos_y - yk,2)) < 15 && !ship_present)
     {
@@ -38,7 +39,20 @@ void Sector::szinez(event ev)
 
 void Sector::rajzol()
 {
+    if(ship_present)
+    {
+        r = 151;
+        g = 151;
+        b = 151;
+    }
     gout << move_to(x,y) << color(r,g,b) << box(30,30);
     gout << move_to(x,y) << color(0,0,0) << line_to(x, 399);
-    gout << move_to(x,y) << color(0,0,0) << line_to(399, y);
+    gout << move_to(x,y) << line_to(399, y);
+}
+void Sector::setshipsstatus(int shipx,int shipy)
+{
+    if(sqrt(pow(shipx-x-15,2)+pow(shipy-y-15,2)) < 15)
+    {
+        ship_present = true;
+    }
 }
