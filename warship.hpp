@@ -10,6 +10,7 @@ protected:
     int hits = 0;
     bool destroyed = false;
     bool grabbed = false;
+    bool down = false;
 public:
     Warship();
 

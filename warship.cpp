@@ -22,7 +22,7 @@ bool Warship::getgrabbed()
 }
 void Warship::grab(int ex, int ey)
 {
-    if(kx - 15 < ex && ex < kx+15 && ky-15 < ey && ey < ky+15 && grabbed == false )
+    if(kx - 15 < ex && ex < kx+15 && ky-15 < ey && ey < ky+15 && grabbed == false && !down )
     {
         grabbed = true;
         kattx = ex;
@@ -72,7 +72,7 @@ void Destroyer::rajzol()
     gout << move_to(kx-15,ky-15) << color(151,151,151) << box(30,30);
     gout << move_to(kx,ky) << color(0,0,0) << dot;
 }
-void Destroyer::damage()
+void Destroyer::damage(int ex, int ey)
 {
 
 }
@@ -93,6 +93,7 @@ bool Destroyer::elhelyez(int ex, int ey)
     if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
     {
         grabbed = false;
+        down = true;
         return true;
     }
     else
@@ -137,6 +138,7 @@ bool Cruiser::elhelyez(int ex, int ey)
     if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
     {
         grabbed = false;
+        down = true;
         return true;
     }
     else
@@ -183,6 +185,7 @@ bool Battleship::elhelyez(int ex, int ey)
     if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
     {
         grabbed = false;
+        down = true;
         return true;
     }
     else
@@ -230,6 +233,7 @@ bool AircraftCarrier::elhelyez(int ex, int ey)
     if(sqrt(pow(ex-kx,2)+pow(ey-ky,2)) < 15)
     {
         grabbed = false;
+        down = true;
         return true;
     }
     else

@@ -4,11 +4,17 @@
 #include "graphics.hpp"
 #include<iostream>
 #include<memory>
+#include<sstream>
 
 using namespace genv;
 using namespace std;
 
 bool game_started = false;
+bool game_over = false;
+bool first_time = true;
+int click = 0;
+pair<int,int> shippos;
+int ct,ct2 = 0;
 
 GameMaster::GameMaster()
 {
@@ -20,7 +26,7 @@ vector<Warship*> makeships()
     vector<Warship*> ships;
     ships.push_back(new Destroyer);
     ships[0]->setxy(200,50);
-    ships.push_back(new Destroyer);
+    /*ships.push_back(new Destroyer);
     ships[1]->setxy(200,100);
     ships.push_back(new Cruiser);
     ships[2]->setxy(200,150);
@@ -29,10 +35,11 @@ vector<Warship*> makeships()
     ships.push_back(new Battleship);
     ships[4]->setxy(200,250);
     ships.push_back(new AircraftCarrier);
-    ships[5]->setxy(200,350);
+    ships[5]->setxy(200,350);*/
 
     return ships;
 }
+
 
 
 void GameMaster::startgame()
@@ -82,10 +89,18 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p[k].size();l++)
                                     {
-                                        p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
+                                        shippos = p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships[i]->setxy(shippos.first,shippos.second);
+                                            ct++;
+
+                                        }
                                     }
                                 }
-                                ships.erase(ships.begin()+i);
+
+
+
                             }
                             break;
                         case 3:
@@ -97,13 +112,20 @@ void GameMaster::startgame()
                                     {
 
 
-                                            p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
+                                            shippos = p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
                                             p[k][l].setshipsstatus(ships[i]->getkx()+30,ships[i]->getky());
                                             p[k][l].setshipsstatus(ships[i]->getkx()-30,ships[i]->getky());
 
+                                            if(shippos.first > 0 && shippos.second > 0 )
+                                            {
+                                                ships[i]->setxy(shippos.first,shippos.second);
+                                                ct++;
+
+                                            }
+
                                     }
                                 }
-                                ships.erase(ships.begin()+i);
+
                             }
 
 
@@ -116,14 +138,21 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p[k].size();l++)
                                     {
-                                        p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
+                                        shippos = p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()+30,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()+60,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()-30,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()-60,ships[i]->getky());
+
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships[i]->setxy(shippos.first,shippos.second);
+                                            ct++;
+
+                                        }
                                     }
                                 }
-                                ships.erase(ships.begin()+i);
+
                             }
 
                             break;
@@ -134,16 +163,23 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p[k].size();l++)
                                     {
-                                        p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
+                                        shippos = p[k][l].setshipsstatus(ships[i]->getkx(),ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()+30,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()+60,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()+90,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()-30,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()-60,ships[i]->getky());
                                         p[k][l].setshipsstatus(ships[i]->getkx()-90,ships[i]->getky());
+
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships[i]->setxy(shippos.first,shippos.second);
+                                            ct++;
+
+                                        }
                                     }
                                 }
-                                ships.erase(ships.begin()+i);
+
                             }
 
                             break;
@@ -155,13 +191,14 @@ void GameMaster::startgame()
                     ships[i]->rajzol();
 
                     }
-                    if(ev.keycode == key_enter)
+                    if(ev.keycode == key_enter && ships.size() == size_t(ct))
                     {
-                        ships.clear();
+
                         playerstart++;
                     }
                 break;
             case 2:
+
                     for(size_t i = 0; i < p2.size();i++)
                     {
                         for(size_t j = 0; j < p2[i].size();j++)
@@ -192,10 +229,17 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p2[k].size();l++)
                                     {
-                                        p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
+                                        shippos = p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
+
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships2[i]->setxy(shippos.first,shippos.second);
+                                            ct2++;
+
+                                        }
                                     }
                                 }
-                                ships2.erase(ships2.begin()+i);
+
                             }
                             break;
                         case 3:
@@ -207,13 +251,20 @@ void GameMaster::startgame()
                                     {
 
 
-                                            p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
+                                            shippos = p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
                                             p2[k][l].setshipsstatus(ships2[i]->getkx()+30,ships2[i]->getky());
-                                            p2[k][l].setshipsstatus(ships2[i]->getkx()-30,ships[i]->getky());
+                                            p2[k][l].setshipsstatus(ships2[i]->getkx()-30,ships2[i]->getky());
+
+                                            if(shippos.first > 0 && shippos.second > 0 )
+                                            {
+                                            ships2[i]->setxy(shippos.first,shippos.second);
+                                            ct2++;
+
+                                            }
 
                                     }
                                 }
-                                ships2.erase(ships2.begin()+i);
+
                             }
 
 
@@ -226,14 +277,21 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p[k].size();l++)
                                     {
-                                        p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
+                                        shippos = p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()+30,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()+60,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()-30,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()-60,ships2[i]->getky());
+
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships2[i]->setxy(shippos.first,shippos.second);
+                                            ct2++;
+
+                                        }
                                     }
                                 }
-                                ships2.erase(ships2.begin()+i);
+
                             }
 
                             break;
@@ -244,16 +302,23 @@ void GameMaster::startgame()
                                 {
                                     for(size_t l = 0; l < p[k].size();l++)
                                     {
-                                        p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
+                                        shippos = p2[k][l].setshipsstatus(ships2[i]->getkx(),ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()+30,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()+60,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()+90,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()-30,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()-60,ships2[i]->getky());
                                         p2[k][l].setshipsstatus(ships2[i]->getkx()-90,ships2[i]->getky());
+
+                                        if(shippos.first > 0 && shippos.second > 0 )
+                                        {
+                                            ships2[i]->setxy(shippos.first,shippos.second);
+                                            ct2++;
+
+                                        }
                                     }
                                 }
-                                ships2.erase(ships2.begin()+i);
+
                             }
                             break;
                         }
@@ -264,9 +329,9 @@ void GameMaster::startgame()
 
 
 
-                    if(ev.keycode == key_enter)
+                    if(ev.keycode == key_enter && ships2.size() == size_t(ct2))
                     {
-                        ships2.clear();
+
                         playerstart++;
                         game_started = true;
                     }
@@ -282,11 +347,99 @@ void GameMaster::startgame()
 
         if(game_started)
         {
+            if(first_time)
+            {
+                gout << move_to(200,20) << text("Battle starts!") << refresh;
+
+            }
+            stringstream s;
+            s <<"Player " << playerturn << "'s turn, press Enter when ready";
+
             switch(playerturn)
             {
+
                 case 1:
+
+                        gout << move_to(20,20) << color(255,255,255) << text(s.str());
+                        gout << move_to(20,379) << text("You MUST click on a sector first");
+                        for(size_t i = 0; i < p2.size();i++)
+                        {
+                            for(size_t j = 0; j < p2[i].size();j++)
+                            {
+                                p2[i][j].rajzol_game();
+                            }
+                        }
+                    if(ev.button == btn_left)
+                    {
+                        if(click % 2 == 0)
+                        {
+                            for(size_t i = 0; i < p2.size();i++)
+                            {
+                            for(size_t j = 0; j < p2[i].size();j++)
+                            {
+                                p2[i][j].szinez(ev);
+                                for(size_t k = 0; k < ships2.size();k++)
+                                {
+                                    ships2[k]->damage(ev.pos_x,ev.pos_y);
+                                }
+                            }
+                            }
+                            click++;
+                        }
+
+                    }else
+                    {
+                        if(ev.keycode == key_enter && click % 2 == 1 && !game_over)
+                        {
+                            playerturn++;
+
+                        }
+                        if(ev.keycode == key_enter && click % 2 == 0)
+                        {
+                            gout << move_to(100,369) << text("Make your move first!") << refresh;
+                        }
+                    }
+
+
+
                     break;
                 case 2:
+
+                    gout << move_to(20,20) << color(255,255,255) << text(s.str());
+                    gout << move_to(20,379) << text("You MUST click on a sector first");
+                    for(size_t i = 0; i < p.size();i++)
+                        {
+                            for(size_t j = 0; j < p[i].size();j++)
+                            {
+                                p[i][j].rajzol_game();
+                            }
+                        }
+                    if(ev.button == btn_left)
+                    {
+                        if(click % 2 == 1)
+                        {
+                            for(size_t i = 0; i < p.size();i++)
+                            {
+                            for(size_t j = 0; j < p[i].size();j++)
+                            {
+                                p[i][j].szinez(ev);
+                            }
+                            }
+                            click--;
+                        }
+
+                    }else
+                    {
+                        if(ev.keycode == key_enter && click % 2 == 0 && !game_over)
+                        {
+                            playerturn--;
+                            first_time = false;
+                        }
+                        if(ev.keycode == key_enter && click % 2 == 1)
+                        {
+                            gout << move_to(200,369) << text("Make your move first!") << refresh;
+                        }
+                    }
                     break;
                 default:
                     break;

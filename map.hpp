@@ -16,7 +16,9 @@ public:
 
     virtual void szinez(genv::event ev);
     virtual void rajzol();
-    void setshipsstatus(int shipx,int shipy);
+    void rajzol_game();
+    std::pair<int,int> setshipsstatus(int shipx,int shipy);
+    const bool getshipstatus();
 
 };
 
