@@ -15,16 +15,18 @@ public:
     Warship();
 
 
-    virtual void damage();
+    virtual void damage(int ex, int ey, int &t);
     virtual bool getgrabbed();
     virtual void grab(int ex, int ey);
     virtual void mozog(int ex, int ey);
     virtual void rajzol();
     virtual bool elhelyez(int ex, int ey);
     virtual void setxy(int kx, int ky);
-    int getkx();
-    int getky();
-    int returntype();
+    const int getkx();
+    const int getky();
+    const int returntype();
+    const bool returndestroyed();
+    void setdownvalue_false(int ex, int ey);
 
 };
 
@@ -37,7 +39,7 @@ public:
 
     void setxy(int kx, int ky);
     void rajzol();
-    void damage();
+    void damage(int ex, int ey, int &t);
     void mozog(int ex, int ey);
     bool elhelyez(int ex, int ey);
 
@@ -50,7 +52,7 @@ public:
 
     void setxy(int kx, int ky);
     void rajzol();
-    void damage();
+    void damage(int ex, int ey, int &t);
     void mozog(int ex, int ey);
     bool elhelyez(int ex, int ey);
 };
@@ -63,7 +65,7 @@ public:
 
     void setxy(int kx, int ky);
     void rajzol();
-    void damage();
+    void damage(int ex, int ey, int &t);
     void mozog(int ex, int ey);
     bool elhelyez(int ex, int ey);
 };
@@ -76,7 +78,7 @@ public:
 
     void setxy(int kx, int ky);
     void rajzol();
-    void damage();
+    void damage(int ex, int ey, int &t);
     void mozog(int ex, int ey);
     bool elhelyez(int ex, int ey);
 };

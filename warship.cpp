@@ -12,7 +12,7 @@ Warship::Warship()
 }
 
 
-void Warship::damage()
+void Warship::damage(int ex, int ey,int &t)
 {
 
 }
@@ -49,17 +49,27 @@ void Warship::setxy(int kx,int ky)
 {
 
 }
-int Warship::getkx()
+const int Warship::getkx()
 {
     return kx;
 }
-int Warship::getky()
+const int Warship::getky()
 {
     return ky;
 }
-int Warship::returntype()
+const int Warship::returntype()
 {
     return parts;
+}
+
+const bool Warship::returndestroyed()
+{
+    return destroyed;
+}
+void Warship::setdownvalue_false(int ex, int ey)
+{
+    down = false;
+    grab(ex,ey);
 }
 
 
@@ -72,9 +82,17 @@ void Destroyer::rajzol()
     gout << move_to(kx-15,ky-15) << color(151,151,151) << box(30,30);
     gout << move_to(kx,ky) << color(0,0,0) << dot;
 }
-void Destroyer::damage(int ex, int ey)
+void Destroyer::damage(int ex, int ey,int &t)
 {
-
+    if(kx - 15 < ex && ex < kx + 15 && ky - 15 < ey && ey <ky + 15 && t == 0  )
+    {
+        hits++;
+        t++;
+    }
+    if(hits == parts)
+    {
+        destroyed = true;
+    }
 }
 void Destroyer::mozog(int ex, int ey)
 {
@@ -120,9 +138,17 @@ void Cruiser::rajzol()
         gout << move_to(kx+15,ky-15) << color(151,151,151) << box(30,30);
         gout << move_to(kx,ky) << color(0,0,0) << dot;
 }
-void Cruiser::damage()
+void Cruiser::damage(int ex, int ey,int &t)
 {
-
+    if(kx - 45 < ex && ex < kx + 45 && ky - 45 < ey && ey <ky + 45 &&t == 0 )
+    {
+        hits++;
+        t++;
+    }
+    if(hits == parts)
+    {
+        destroyed = true;
+    }
 }
 void Cruiser::mozog(int ex, int ey)
 {
@@ -166,9 +192,17 @@ void Battleship::rajzol()
     gout << move_to(kx+45,ky-15) << color(151,151,151) << box(30,30);
     gout << move_to(kx,ky) << color(0,0,0) << dot;
 }
-void Battleship::damage()
+void Battleship::damage(int ex, int ey,int &t)
 {
-
+    if(kx - 75 < ex && ex < kx + 75 && ky - 75 < ey && ey <ky + 75  )
+    {
+        hits++;
+        t++;
+    }
+    if(hits == parts)
+    {
+        destroyed = true;
+    }
 }
 void Battleship::mozog(int ex, int ey)
 {
@@ -214,9 +248,17 @@ void AircraftCarrier::rajzol()
     gout << move_to(kx+75,ky-15) << color(151,151,151) << box(30,30);
     gout << move_to(kx,ky) << color(0,0,0) << dot;
 }
-void AircraftCarrier::damage()
+void AircraftCarrier::damage(int ex, int ey,int &t)
 {
-
+    if(kx - 105 < ex && ex < kx + 105 && ky - 105 < ey && ey <ky + 105  )
+    {
+        hits++;
+        t++;
+    }
+    if(hits == parts)
+    {
+        destroyed = true;
+    }
 }
 void AircraftCarrier::mozog(int ex, int ey)
 {

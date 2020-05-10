@@ -9,26 +9,28 @@
 using namespace genv;
 using namespace std;
 
+typedef vector<Warship*> hajok;
+
 bool game_started = false;
 bool game_over = false;
 bool first_time = true;
 int click = 0;
 pair<int,int> shippos;
-int ct,ct2 = 0;
+int ct,ct2, times, score1, score2 = 0;
 
 GameMaster::GameMaster()
 {
 
 }
 
-vector<Warship*> makeships()
+hajok makeships()
 {
-    vector<Warship*> ships;
+    hajok ships;
     ships.push_back(new Destroyer);
     ships[0]->setxy(200,50);
-    /*ships.push_back(new Destroyer);
+    ships.push_back(new Destroyer);
     ships[1]->setxy(200,100);
-    ships.push_back(new Cruiser);
+    /*ships.push_back(new Cruiser);
     ships[2]->setxy(200,150);
     ships.push_back(new Cruiser);
     ships[3]->setxy(200,200);
@@ -40,24 +42,26 @@ vector<Warship*> makeships()
     return ships;
 }
 
-
-
-void GameMaster::startgame()
+void removedestroyed(hajok& v, int& score)
 {
-    gout.open(400,400);
-    event ev;
-    palya p = GameMaster::makemap();
-    palya p2 = GameMaster::makemap();
-    vector<Warship*> ships = makeships();
-    vector<Warship*> ships2 = makeships();
-    int playerstart = 1;
-    int playerturn = 1;
-    while(gin >> ev && ev.keycode != key_escape)
+    for(size_t i = 0; i < v.size();i++)
     {
-
-        switch(playerstart)
+        if(v[i]->returndestroyed())
         {
+            v.erase(v.begin()+i);
+            score++;
+            return;
+        }
+    }
+}
+
+void prepphase(int& playerstart, hajok& ships, hajok& ships2, palya& p, palya& p2, event ev)
+{
+    switch(playerstart)
+        {
+
             case 1:
+
                     for(size_t i = 0; i < p.size();i++)
                     {
                         for(size_t j = 0; j < p[i].size();j++)
@@ -150,6 +154,7 @@ void GameMaster::startgame()
                                             ct++;
 
                                         }
+
                                     }
                                 }
 
@@ -339,28 +344,28 @@ void GameMaster::startgame()
             default:
                 break;
         }
+}
 
-
-
-
-
-
-        if(game_started)
-        {
-            if(first_time)
+void actionphase(int& playerturn, hajok& ships, hajok& ships2, palya& p, palya& p2, event ev)
+{
+    if(first_time)
             {
                 gout << move_to(200,20) << text("Battle starts!") << refresh;
 
             }
             stringstream s;
+            stringstream s2;
             s <<"Player " << playerturn << "'s turn, press Enter when ready";
 
             switch(playerturn)
             {
 
                 case 1:
-
-                        gout << move_to(20,20) << color(255,255,255) << text(s.str());
+                    times = 0;
+                    s2 << "Your score: " << score1;
+                        gout << move_to(50,15) << color(255,255,255) << text(s2.str());
+                        s2.clear();
+                        gout << move_to(20,25) << text(s.str());
                         gout << move_to(20,379) << text("You MUST click on a sector first");
                         for(size_t i = 0; i < p2.size();i++)
                         {
@@ -380,7 +385,7 @@ void GameMaster::startgame()
                                 p2[i][j].szinez(ev);
                                 for(size_t k = 0; k < ships2.size();k++)
                                 {
-                                    ships2[k]->damage(ev.pos_x,ev.pos_y);
+                                    ships2[k]->damage(ev.pos_x,ev.pos_y,times);
                                 }
                             }
                             }
@@ -404,8 +409,11 @@ void GameMaster::startgame()
 
                     break;
                 case 2:
-
-                    gout << move_to(20,20) << color(255,255,255) << text(s.str());
+                    times = 0;
+                    s2 << "Your score: " << score2;
+                    gout << move_to(50,15) << color(255,255,255) << text(s2.str());
+                    s2.clear();
+                    gout << move_to(20,25) << color(255,255,255) << text(s.str());
                     gout << move_to(20,379) << text("You MUST click on a sector first");
                     for(size_t i = 0; i < p.size();i++)
                         {
@@ -423,6 +431,11 @@ void GameMaster::startgame()
                             for(size_t j = 0; j < p[i].size();j++)
                             {
                                 p[i][j].szinez(ev);
+                                for(size_t k = 0; k < ships2.size();k++)
+                                {
+
+                                    ships[k]->damage(ev.pos_x,ev.pos_y, times);
+                                }
                             }
                             }
                             click--;
@@ -444,12 +457,53 @@ void GameMaster::startgame()
                 default:
                     break;
             }
+}
+
+void GameMaster::startgame()
+{
+    gout.open(400,400);
+    event ev;
+    palya p = GameMaster::makemap();
+    palya p2 = GameMaster::makemap();
+    hajok ships = makeships();
+    hajok ships2 = makeships();
+    int playerstart = 1;
+    int playerturn = 1;
+    while(gin >> ev && ev.keycode != key_escape)
+    {
+        if(ships.size() == 0)
+        {
+            gout << move_to(200,200) << color(255,255,255) << text("Player 2 wins") << refresh;
+            continue;
+        }
+        if(ships2.size() == 0)
+        {
+            gout << move_to(200,200) << color(255,255,255) << text("Player 1 wins") << refresh;
+            continue;
+        }
+        prepphase(playerstart, ships, ships2, p, p2, ev);
+
+
+
+
+
+
+
+
+        if(game_started)
+        {
+            actionphase(playerturn,ships,ships2,p,p2,ev);
         }
 
 
         gout << refresh;
         gout << move_to(0,0) << color(0,0,0) << box_to(399,399);
+        removedestroyed(ships2, score1);
+        removedestroyed(ships, score2);
+
+
     }
+
 }
 
 palya GameMaster::makemap()

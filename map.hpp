@@ -9,7 +9,7 @@ using namespace genv;
 class Sector : public Ocean
 {
 protected:
-    int r,g,b;
+    int r,g,b, ships;
     bool ship_present = false;
 public:
     Sector(int x, int y);
@@ -19,6 +19,7 @@ public:
     void rajzol_game();
     std::pair<int,int> setshipsstatus(int shipx,int shipy);
     const bool getshipstatus();
+    const int getships();
 
 };
 
