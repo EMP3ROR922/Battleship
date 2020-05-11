@@ -18,6 +18,7 @@ int click = 0;
 pair<int,int> shippos;
 int ct,ct2, times, score1, score2 = 0;
 
+
 GameMaster::GameMaster()
 {
 
@@ -30,14 +31,14 @@ hajok makeships()
     ships[0]->setxy(200,50);
     ships.push_back(new Destroyer);
     ships[1]->setxy(200,100);
-    /*ships.push_back(new Cruiser);
+    ships.push_back(new Cruiser);
     ships[2]->setxy(200,150);
     ships.push_back(new Cruiser);
     ships[3]->setxy(200,200);
     ships.push_back(new Battleship);
     ships[4]->setxy(200,250);
     ships.push_back(new AircraftCarrier);
-    ships[5]->setxy(200,350);*/
+    ships[5]->setxy(200,350);
 
     return ships;
 }
@@ -363,9 +364,9 @@ void actionphase(int& playerturn, hajok& ships, hajok& ships2, palya& p, palya& 
                 case 1:
                     times = 0;
                     s2 << "Your score: " << score1;
-                        gout << move_to(50,15) << color(255,255,255) << text(s2.str());
+                        gout << move_to(50,15) << color(255,0,0) << text(s2.str());
                         s2.clear();
-                        gout << move_to(20,25) << text(s.str());
+                        gout << move_to(20,25) << color(255,255,255) << text(s.str());
                         gout << move_to(20,379) << text("You MUST click on a sector first");
                         for(size_t i = 0; i < p2.size();i++)
                         {
@@ -411,7 +412,7 @@ void actionphase(int& playerturn, hajok& ships, hajok& ships2, palya& p, palya& 
                 case 2:
                     times = 0;
                     s2 << "Your score: " << score2;
-                    gout << move_to(50,15) << color(255,255,255) << text(s2.str());
+                    gout << move_to(50,15) << color(255,0,0) << text(s2.str());
                     s2.clear();
                     gout << move_to(20,25) << color(255,255,255) << text(s.str());
                     gout << move_to(20,379) << text("You MUST click on a sector first");

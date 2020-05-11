@@ -62,12 +62,11 @@ pair<int,int> Sector::setshipsstatus(int shipx,int shipy)
 {
     if(ship_present)
     {
-        ships++;
+        return make_pair(-1,-1);
     }
     if(sqrt(pow(shipx-x-15,2)+pow(shipy-y-15,2)) < 15)
     {
         ship_present = true;
-        ships = 1;
         return make_pair(x+15,y+15);
     }
     return make_pair(-1,-1);

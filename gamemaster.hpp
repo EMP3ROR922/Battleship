@@ -8,9 +8,11 @@
 #include "map.hpp"
 #include "warship.hpp"
 
+
 using namespace std;
 
 typedef vector<vector<Sector>> palya;
+typedef vector<Warship*> hajok;
 
 
 class GameMaster
